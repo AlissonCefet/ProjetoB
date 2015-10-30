@@ -1,0 +1,35 @@
+<html>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<body>
+	<div class="jumbotron">
+	<div class="container" >
+		<form method="POST" action="cadferramentas.php" >
+			<div class="panel panel-default">
+				<div class="panel-heading"  >
+					<div class="panel-title" >Cadastro de Ferramentas</div>
+				</div>			
+				<div class="panel-body">
+					<div class="container" >
+					<dl>
+					<label>Nome: </label> <input type="text" name="nome" /><br></dl><dl>
+					<label>Senha: </label> <input type="text" name="senha" /><br></dl><dl>
+					<label>Email: </label> <input type="text" name="email" /><br></dl><dl>
+					<label>Endereco: </label> <input type="text" name="endereco" /><br></dl><dl>
+					<label>Numero: </label> <input type="text" name="numero" /><br></dl><dl>
+					<label>Estado: </label> <input type="text" name="estado" /><br></dl><dl>
+					<label>Cidade: </label> <input type="text" name="cidade" /><br></dl><dl>
+					<label>CEP: </label> <input type="text" name="cep" /><br></dl><dl>
+					<label>Telefone: </label> <input type="text" name="telefone" /><br></dl><dl>
+					<label>Celular: </label> <input type="text" name="celular" /><br></dl><dl>
+					<label>CPF: </label> <input type="text" name="cpf" /><br></dl><dl>
+					<label>Data Nascimento: </label> <input type="text" name="datanasc" /><br></dl><dl>
+					<label>Sexo: </label><input type="text" name="sexo" />	<br></dl>
+					<input class="btn btn-info" type="submit" value="Cadastrar" />
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	</div>
+	</body>
+</html>
