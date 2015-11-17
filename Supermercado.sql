@@ -1,0 +1,120 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Máquina: localhost
+-- Data de Criação: 12-Nov-2015 às 21:57
+-- Versão do servidor: 5.5.38-0ubuntu0.14.04.1
+-- versão do PHP: 5.5.9-1ubuntu4.5
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Base de Dados: `Supermercado`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `CARRINHO`
+--
+
+CREATE TABLE IF NOT EXISTS `CARRINHO` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USUARIO` int(11) unsigned NOT NULL,
+  `PRODUTO` int(11) unsigned NOT NULL,
+  `PRECO` double DEFAULT NULL,
+  `QUANTIDADE` double DEFAULT NULL,
+  `PRECO_TOTAL` double DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `USUARIO` (`USUARIO`,`PRODUTO`,`PRECO`),
+  KEY `PRODUTO` (`PRODUTO`,`PRECO`),
+  KEY `PRECO` (`PRECO`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Extraindo dados da tabela `CARRINHO`
+--
+
+INSERT INTO `CARRINHO` (`ID`, `USUARIO`, `PRODUTO`, `PRECO`, `QUANTIDADE`, `PRECO_TOTAL`) VALUES
+(1, 1, 4, 70, 4, NULL),
+(2, 1, 5, 330, 2, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `PRODUTOS`
+--
+
+CREATE TABLE IF NOT EXISTS `PRODUTOS` (
+  `CODIGO` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `NOME` varchar(100) DEFAULT NULL,
+  `MARCA` varchar(50) DEFAULT NULL,
+  `PRECO` double DEFAULT NULL,
+  `TIPO` varchar(50) DEFAULT NULL,
+  `QUANTIDADE` double DEFAULT NULL,
+  PRIMARY KEY (`CODIGO`),
+  KEY `PRECO` (`PRECO`),
+  KEY `PRECO_2` (`PRECO`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Extraindo dados da tabela `PRODUTOS`
+--
+
+INSERT INTO `PRODUTOS` (`CODIGO`, `NOME`, `MARCA`, `PRECO`, `TIPO`, `QUANTIDADE`) VALUES
+(4, 'GUIDÃO COLONY TENACIOUS CROMADO 10" X 30"', 'COLONY', 330, 'GUIDÃO', 20),
+(5, 'ARO ALEX SUPRA DOME PINO NATURAL', 'ALEX', 70, 'ARO', 15);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `USUARIO`
+--
+
+CREATE TABLE IF NOT EXISTS `USUARIO` (
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `NOME` varchar(100) NOT NULL,
+  `SENHA` varchar(25) DEFAULT NULL,
+  `EMAIL` varchar(50) DEFAULT NULL,
+  `ENDERECO` varchar(100) DEFAULT NULL,
+  `NUMERO` varchar(5) DEFAULT NULL,
+  `CIDADE` varchar(50) DEFAULT NULL,
+  `CEP` varchar(9) DEFAULT NULL,
+  `ESTADO` varchar(2) DEFAULT NULL,
+  `TELEFONE` varchar(13) DEFAULT NULL,
+  `CELULAR` varchar(14) DEFAULT NULL,
+  `CPF` varchar(14) DEFAULT NULL,
+  `DATA_NASCIMENTO` date DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Extraindo dados da tabela `USUARIO`
+--
+
+INSERT INTO `USUARIO` (`ID`, `NOME`, `SENHA`, `EMAIL`, `ENDERECO`, `NUMERO`, `CIDADE`, `CEP`, `ESTADO`, `TELEFONE`, `CELULAR`, `CPF`, `DATA_NASCIMENTO`) VALUES
+(1, 'ALISSON DOS SANTOS', '99192514', 'alisson_d_s@live.com', 'Rua: Gilberto Ponciano Conde', '14', 'Varginha', '37048-500', 'MG', '(35)3222-8053', '(35)8842-8053', '117.925.446-50', '1995-08-11');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Limitadores para a tabela `CARRINHO`
+--
+ALTER TABLE `CARRINHO`
+  ADD CONSTRAINT `C_PRECO` FOREIGN KEY (`PRECO`) REFERENCES `PRODUTOS` (`PRECO`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `C_PRODUTO` FOREIGN KEY (`PRODUTO`) REFERENCES `PRODUTOS` (`CODIGO`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `C_USUARIO` FOREIGN KEY (`USUARIO`) REFERENCES `USUARIO` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

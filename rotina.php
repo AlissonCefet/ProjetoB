@@ -39,7 +39,7 @@
 	}
 	
 	
-	function CadastraUsuario($nome, $senha, $email, $endereco, $numero, $estado, $cidade, $cep, $telefone, $celular, $cpf, $datanasc, $sexo) {
+	function CadastraUsuario($nome, $senha, $email, $endereco, $numero, $estado, $cidade, $cep, $telefone, $celular, $cpf, $datanasc) {
 		$sql = "INSERT INTO USUARIO (	
 		NOME,
 		SENHA,
@@ -52,9 +52,8 @@
 		TELEFONE,
 		CELULAR,
 		CPF,
-		DATA_NASCIMENTO,
-		SEXO
-		) VALUES ('$nome','$senha', '$email', '$endereco', '$numero', '$estado', '$cidade','$cep', '$telefone', '$celular', '$cpf', '$datanasc','$sexo')";
+		DATA_NASCIMENTO
+		) VALUES ('$nome','$senha', '$email', '$endereco', '$numero', '$estado', '$cidade','$cep', '$telefone', '$celular', '$cpf', '$datanasc')";
 		mysql_query($sql) or die (mysql_error());
 		if(mysql_affected_rows() > 0) {
 			echo "Cliente Cadastrado com Sucesso";	
@@ -63,72 +62,93 @@
 		}
 	}
 	
-	/*-----------------------------------
-	| 			Editar de clientes         |
-	-----------------------------------*/
-	function EditarClientes($codigo, $nome, $endereco, $numero, $bairro, $cidade, $estado, $pais, $telefone, $celular, $cpf, $rg_rne, $referencia_comercial_1, $referencia_comercial_2, $referencia_comercial_3) {
-		$sql = "UPDATE CLIENTES SET
-		NOME = '$nome',
-		ENDERECO = '$endereco',
-		NUMERO = '$numero',
-		BAIRRO = '$bairro',
-		CIDADE = '$cidade',
-		ESTADO = '$estado',
-		PAIS = '$pais',
-		TELEFONE = '$telefone',
-		CELULAR = '$celular',
-		CPF = '$cpf',
-		RG_RNE = '$rg_rne',
-		REFERENCIA_COMERCIAL_1 = '$referencia_comercial_1',
-		REFERENCIA_COMERCIAL_2 = '$referencia_comercial_2',
-		REFERENCIA_COMERCIAL_3 = '$referencia_comercial_3' WHERE CODIGO = $codigo ";
-		mysql_query($sql);
-			if(mysql_affected_rows() > 0) {
-				echo "Cliente Alterado com Sucesso";	
-			} else {
-				echo "Erro ao Alterar Cliente";	
-			}		
-	}
-	/*-----------------------------------
-	| 			Excluir clientes           |
-	-----------------------------------*/
-	function ExcluirClientes($codigo) {
-		$sql = "DELETE FROM CLIENTES WHERE CODIGO = $codigo";
-		mysql_query($sql);
-			if(mysql_affected_rows() > 0) {
-				echo "Cliente Alterado com Sucesso";	
-			} else {
-				echo "Erro ao Alterar Cliente";	
-			}		
-	}
-	/*-----------------------------------
-	| 			Cadastro de Produtos       |
-	-----------------------------------*/
-	function CadastraProdutos($nome, $marca, $unidade, $preco, $tipo, $quantidade) {
-		$slq = "INSERT INTO PRODUTOS (
+	function CadastraProdutos($nome, $marca, $preco, $tipo, $quantidade) {
+		$sql = "INSERT INTO PRODUTOS (	
 		NOME,
 		MARCA,
-		UNIDADE,
 		PRECO,
 		TIPO,
-		QUANTIDADE ) VALUES ('$nome', '$marca', '$unidade', $preco, '$tipo', $quantidade)";
-		mysql_query($slq);
+		QUANTIDADE
+		) VALUES ('$nome', '$marca', $preco, '$tipo', $quantidade)";
+		mysql_query($sql) or die (mysql_error());
 		if(mysql_affected_rows() > 0) {
 			echo "Produto Cadastrado com Sucesso";	
 		} else {
 			echo "Erro ao Cadastrar Produto";	
-		}	
+		}
 	}
-	/*-----------------------------------
-	| 		  	Editar  Produtos           |
-	-----------------------------------*/
-	function EditarProdutos($codigo, $nome, $marca, $unidade, $preco, $tipo, $quantidade) {
-		$sql = "UPDATE PRODUTOS SET 
-		NOME = '$nome',
-		MARCA = '$marca',
-		UNIDADE = '$unidade',
-		PRECO = $preco,
-		TIPO = '$tipo',
-		QUANTIDADE = $quantidade WHERE CODIGO = $codigo";
+	
+	function ValidaCPF($CPF) {
+    	$CPF = ereg_replace('[^0-9]', '', $CPF);
+    	$CPF = str_pad($CPF, 11, '0', STR_PAD_LEFT);
+
+    	if (strlen($CPF) != 11) {
+        	return false;
+    	}
+    	else if ($CPF == '00000000000' || 
+        	$CPF == '11111111111' || 
+        	$CPF == '22222222222' || 
+        	$CPF == '33333333333' || 
+        	$CPF == '44444444444' || 
+        	$CPF == '55555555555' || 
+        	$CPF == '66666666666' || 
+        	$CPF == '77777777777' || 
+        	$CPF == '88888888888' || 
+        	$CPF == '99999999999') {
+        	return false;
+
+     	} else {   
+         
+        	for ($t = 9; $t < 11; $t++) {
+             
+            		for ($d = 0, $c = 0; $c < $t; $c++) {
+                		$d += $CPF{$c} * (($t + 1) - $c);
+          	  }
+            		$d = ((10 * $d) % 11) % 10;
+            		if ($CPF{$c} != $d) {
+                	return false;
+            }
+        }
+        return true;
+   		 }
+   }
+   
+   function validaCep($CEP){
+		if (!eregi("^[0-9]{5}-[0-9]{3}$", $CEP)) {
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+	
+	function ConsultarProdutos(){
+		$sql = "SELECT * FROM PRODUTOS";
+		$result = mysql_query($sql);
+		$i = 0;
+		while ($row = mysql_fetch_assoc($result)) {
+			$i++;
+			echo "<h3><p>Produto ".$i."</p></h3><br>";
+    		echo "Nome: ".$row["NOME"]."<br>";
+    		echo "Marca: ".$row["MARCA"]."<br>";
+			echo "Preço: ".$row["PRECO"]."<br>";
+		   echo "Tipo: ".$row["TIPO"]."<br>";
+			echo "Quantidade: ".$row["QUANTIDADE"]."<br><br>";
+		}
+	}
+	
+	function ConsultarCarrinho() {
+		$soma = 0;
+		$sql = "SELECT * FROM CARRINHO";
+		$result = mysql_query($sql);
+		$i = 0;
+		while($row = mysql_fetch_assoc($result)) {
+			$i ++;
+			echo "Produto: ".$row['PRODUTO']."<br>";
+			echo "Preco: ".$row['PRECO']."<br>";
+			echo "Quantidade: ".$row['QUANTIDADE']."<br><br>";
+			$soma = $soma + ($row['PRECO'])*($row['QUANTIDADE']);
+		}
+		echo "Preco Total: ".$soma."<br><br>";
 	}
 ?>

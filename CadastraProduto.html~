@@ -1,0 +1,28 @@
+<html>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<body>
+	<div class="jumbotron">
+	<div class="container" >
+		<form method="POST" action="CadastraProduto.php" >
+			<div class="panel panel-default">
+				<div class="panel-heading"  >
+					<div class="panel-title" >Cadastro de Produto</div>
+				</div>			
+				<div class="panel-body">
+					<div class="container" >
+					<dl>
+					<label>Nome: </label> <input type="text" name="nome" /><br></dl><dl>
+					<label>Marca: </label> <input type="text" name="marca" /><br></dl><dl>
+					<label>Unidade: </label> <input type="text" name="unidade" /><br></dl><dl>
+					<label>Preco: </label> <input type="text" name="preco" /><br></dl><dl>
+					<label>Tipo: </label> <input type="text" name="tipo" /><br></dl><dl>
+					<label>Quantidade: </label> <input type="text" name="quantidade" /><br></dl><dl>
+					<input class="btn btn-info" type="submit" value="Cadastrar" />
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	</div>
+	</body>
+</html>
